@@ -5,7 +5,7 @@ int voicesLED[] = {4,0,5,15};
 
 #define YEL_BUTTON 14
 int yCurr = HIGH;
-int vfCurr = 0;
+int vfCurr = 0; // default is volume
 int vfLED[] = {18,19};  //18 is vol (BLUE), 19 is freq (GREEN)
 
 int xyzPins[] = {25,26,27};
@@ -33,9 +33,9 @@ void setup() {
 }
 
 void loop() {
-
-  if (digitalRead(SWITCH) != solo){
-    toggleSwitch(digitalRead(SWITCH));
+  int switchVal = digitalRead(SWITCH);
+  if (switchVal != solo){
+    toggleSwitch(switchVal);
   }
 
   if (solo == 0){
@@ -53,16 +53,10 @@ void loop() {
     yCurr = yNew;
   
   }
-
-  else{
-    
-  }
   
   int yVal = analogRead(xyzPins[1]);
-  int dpst = digitalRead(32);
-  Serial.printf("Y: %d\n", yVal);
-  Serial.printf("y,r,s: %d,\t%d,\t%d\n", yCurr, rCurr, dpst);
-  delay(500);
+  Serial.printf("%d %d %d %d\n", solo, voiceCurr, vfCurr, yVal);
+  delay(100);
 }
 
 void toggleSwitch(int newVal){
