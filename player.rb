@@ -9,7 +9,7 @@ voices = [v0, v1, v2, v3]
 live_loop :vol_change do
   use_real_time
   v, a = sync "/osc*/vol"
-  control voices[v0], amp: a
+  control voices[v], amp: a
 end
 
 live_loop :pitch_change do
