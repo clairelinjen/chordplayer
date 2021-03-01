@@ -10,6 +10,7 @@ int vfLED[] = {18,19};  //18 is vol (BLUE), 19 is freq (GREEN)
 
 int xyzPins[] = {25,26,27};
 int jsCurr = 2368;
+int lastJS = millis();
 
 #define SWITCH 32
 int solo = 0;  // 0 means solo, 1 means global
@@ -62,6 +63,14 @@ void loop() {
   int jsNew = analogRead(xyzPins[1]);
   if (abs(jsCurr - jsNew) > 200){
     sendSerial = true;
+    lastJS = millis();
+  }
+  else if (abs(jsCurr - 2368) > 200){
+    int now = millis();
+    if (now - lastJS > 300){
+      sendSerial = true;
+      lastJS = now;
+    }
   }
   jsCurr = jsNew;
   
