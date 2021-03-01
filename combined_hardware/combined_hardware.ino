@@ -9,9 +9,12 @@ int vfCurr = 0; // default is volume
 int vfLED[] = {18,19};  //18 is vol (BLUE), 19 is freq (GREEN)
 
 int xyzPins[] = {25,26,27};
+int jsCurr = 2368;
 
 #define SWITCH 32
 int solo = 0;  // 0 means solo, 1 means global
+
+int sendSerial = true;
 
 void setup() {
   Serial.begin(9600);
@@ -35,6 +38,7 @@ void setup() {
 void loop() {
   int switchVal = digitalRead(SWITCH);
   if (switchVal != solo){
+    sendSerial = true;
     toggleSwitch(switchVal);
   }
 
@@ -42,20 +46,29 @@ void loop() {
     
     int rNew = digitalRead(RED_BUTTON);
     if (rNew == LOW and rCurr == 1) {
+      sendSerial = true;
       cycleVoices();
     }
     rCurr = rNew;
 
     int yNew = digitalRead(YEL_BUTTON);
     if (yNew == LOW and yCurr == 1) {
+      sendSerial = true;
       cyclevf();
     }
     yCurr = yNew;
-  
   }
   
-  int yVal = analogRead(xyzPins[1]);
-  Serial.printf("%d %d %d %d\n", solo, voiceCurr, vfCurr, yVal);
+  int jsNew = analogRead(xyzPins[1]);
+  if (abs(jsCurr - jsNew) > 200){
+    sendSerial = true;
+  }
+  jsCurr = jsNew;
+  
+  if (sendSerial){
+    Serial.printf("%d %d %d %d\n", solo, voiceCurr, vfCurr, jsCurr);
+    sendSerial = false;
+  }
   delay(100);
 }
 
