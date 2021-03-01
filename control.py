@@ -5,7 +5,7 @@ import sys
 import time
 from time import sleep
 
-ser = serial.Serial('/dev/cu.usbserial-110', 9600)
+ser = serial.Serial('/dev/ttyUSB0', 9600)
 sender = udp_client.SimpleUDPClient('127.0.0.1', 4560)
 
 pitches = [60, 60, 60, 60]

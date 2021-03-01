@@ -1,3 +1,5 @@
+use_synth :square
+
 v0 = play 60, amp: 0, attack: 0.5, sustain: 7200, release: 0.5, note_slide: 0.3, amp_slide: 0.3
 v1 = play 60, amp: 0, attack: 0.5, sustain: 7200, release: 0.5, note_slide: 0.3, amp_slide: 0.3
 v2 = play 60, amp: 0, attack: 0.5, sustain: 7200, release: 0.5, note_slide: 0.3, amp_slide: 0.3
@@ -17,4 +19,3 @@ live_loop :pitch_change do
   v, n = sync "/osc*/pitch"
   control voices[v], note: n
 end
-
